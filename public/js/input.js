@@ -130,9 +130,9 @@ function drawLandmarkBounds(map, landmark) {
                   source: vectorSource,
                 });                
 
-                var styleFound = new ol.style.Style({
+                var styleNotFound = new ol.style.Style({
                     stroke: new ol.style.Stroke({
-                      color: 'red',
+                      color: 'transparent',
                       width: 1
                     }),
                     fill: new ol.style.Fill({
