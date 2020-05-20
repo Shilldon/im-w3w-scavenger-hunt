@@ -45,12 +45,13 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(methodOverride('_method'))
+*/
 
 // Render Main ejs files
 app.get('/', checkAuthenticated, (req, res) => {
     res.render('index.ejs');
 });
-
+/*
 app.get('/register', checkNotAuthenticated, function (req, res) {
     res.render('register.ejs', {errorMessage: ""});
 });
