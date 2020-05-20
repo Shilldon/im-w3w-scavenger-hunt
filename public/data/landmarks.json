@@ -1,0 +1,8 @@
+{ "gums.clubs.terms": {
+    "name": "Big Ben",
+    "range": 20,
+    "radius": 125,
+    "clue": "BONG!",
+    "icon": "big-ben",
+    "coordinates": [-0.12465834617614747,51.50074869890189]
+}}

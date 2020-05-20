@@ -1,0 +1,113 @@
+
+
+.ol-control button {
+    background-color: #1a3a7c;
+    border:solid 1px #eb9f3a;        
+}
+
+body {
+    font-family: 'Source Sans Pro',sans-serif;    
+}
+
+.background-shade {
+    background-color: #efefef;    
+}
+
+.splash-title {
+    background-color: #981e6a; 
+    padding: 40px 0 50px 0;
+    border-radius: 50px 0 0 0;
+    h1 {
+        font-size: 14px;
+        font-size: 5vw;
+        color: white;
+    }
+}
+
+.tile {
+    margin-top: -20px;
+    padding-bottom: 20px;
+}
+
+.white--tile {
+    background-color: white;
+    padding: 30px;
+}
+
+h2 {
+    font-size: 1.95rem;
+    color: #1a3a7c;
+    font-weight: 600;    
+}
+
+p {
+    font-weight: 400;
+    font-size: 1.5rem;
+    color: #1a3a7c;
+}
+
+.guesses-title {
+    background-color: white;
+    padding: 30px 0px 10px 30px;
+}
+
+.guesses {
+    background-color: white;
+    padding-bottom: 40px
+}
+.guesses--words {
+    width: 90%;
+    height: 100%;
+    font-size: 1.75rem;
+    color:  #1a3a7c;
+    background-color: #efefef;
+    border: none;
+    outline: none;
+    padding: 0 5%;
+}
+.guesses--words:focus {
+    border:solid 2px #eb9f3a;    
+}
+
+.btn {
+    line-height: 0.8;
+    color:  #476195;
+    border-color:  #1a3a7c;
+    border-radius: 5%;
+    font-size: 1.5rem;
+    padding: 18px;
+    outline: none;
+}
+
+.btn:hover {
+    border-color:  #1a3a7c;
+    background-color:  #1a3a7c;
+}
+
+.btn:focus {
+    box-shadow: none;
+}
+
+.btn:active {
+    outline: none;
+    box-shadow: none;
+}
+#map {
+    width: 50vw;
+    height: 50vw;
+}
+
+.leaderboard {
+    .leaderboard--contestant {
+        margin: 10px;
+        padding: 10px;
+        background-color: white;
+        h4 {
+            color:  #476195;        
+        }
+        img {
+            height: auto;
+            width: 8%;
+        }
+    }
+}
