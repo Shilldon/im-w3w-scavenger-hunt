@@ -88,11 +88,11 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
             console.log(users)
         }
 });
-
+*/
 app.get('/login', checkNotAuthenticated, (req,res) => {
     res.render('login.ejs');
 })
-
+/*
 app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/login',
@@ -110,14 +110,14 @@ function checkAuthenticated(req, res, next) {
     }
     res.redirect('/login')
 }
-/*
+
 function checkNotAuthenticated(req, res, next) {
     if(req.isAuthenticated()) {
         return res.redirect('/') 
     }
     return next()
 }
-
+*/
 
 //load in raw data
 let rawdata = fs.readFileSync('public/data/landmarks.json');
