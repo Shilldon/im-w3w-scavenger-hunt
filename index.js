@@ -117,7 +117,7 @@ function checkNotAuthenticated(req, res, next) {
     }
     return next()
 }
-/*
+
 
 //load in raw data
 let rawdata = fs.readFileSync('public/data/landmarks.json');
@@ -165,4 +165,3 @@ io.on('connection', function(socket) {
         io.to(socket.id).emit("reveal landmark", icon, coordinates);
     })
 });
-*/
