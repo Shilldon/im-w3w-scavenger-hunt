@@ -31,7 +31,7 @@ http.listen(port, function () {
     console.log('Server Started. Listening on *:' + port);
 });
 
-/*
+
 // Express Middleware
 app.set('view-engine', 'ejs');
 app.use(express.urlencoded({extended: false}));
@@ -45,7 +45,7 @@ app.use(session({
 app.use(passport.initialize())
 app.use(passport.session())
 app.use(methodOverride('_method'))
-*/
+
 
 // Render Main ejs files
 app.get('/', checkAuthenticated, (req, res) => {
