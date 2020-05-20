@@ -26,13 +26,12 @@ var port = process.env.PORT || 3000;
 
 const users = [];
 
-
 // Start the Server
 http.listen(port, function () {
     console.log('Server Started. Listening on *:' + port);
 });
 
-
+/*
 // Express Middleware
 app.set('view-engine', 'ejs');
 app.use(express.urlencoded({extended: false}));
@@ -165,3 +164,4 @@ io.on('connection', function(socket) {
         io.to(socket.id).emit("reveal landmark", icon, coordinates);
     })
 });
+*/
