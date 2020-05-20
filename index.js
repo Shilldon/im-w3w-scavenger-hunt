@@ -117,7 +117,7 @@ function checkNotAuthenticated(req, res, next) {
     }
     return next()
 }
-*/
+/*
 
 //load in raw data
 let rawdata = fs.readFileSync('public/data/landmarks.json');
