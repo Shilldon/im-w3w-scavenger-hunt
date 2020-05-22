@@ -184,6 +184,29 @@ $.getJSON( "../data/map.geojson", function( data ) {
 });
 */
 
+function addToLeaderBoard(players) {
+    console.log("players="+JSON.stringify(players))
+    console.log(players)
+    players.sort((a, b) => (a.landmarks < b.landmarks) ? 1 : -1)
+    console.log(players)
+    console.log(players[0].landmarks)
+    console.log(players[1].landmarks)
+    $.each(players, function(key, player) {
+        //console.log("player "+JSON.stringify(player))
+        $.each(player, function(key, value){
+            //console.log(key)
+            //console.log(JSON.stringify(value))
+            if(key === "username") {
+                var name = value;
+                if($(`#leaderboard-${name}`).length===0) {
+                    $(".leaderboard").append(`<div id="leaderboard-${name}" class="leaderboard--contestant row"><div class="col-4 my-auto"><h4 class="contestant-name">${name}</h4></div><div class="col-8 leaderboard--sites-found"></div></div>`);
+                } 
+            }       
+        });
+    });
+
+}
+
 $(document).ready(function() {
     $("input").on('keyup', function(e){
         if(e.keyCode === 13) {

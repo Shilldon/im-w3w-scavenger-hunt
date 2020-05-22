@@ -79,13 +79,14 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
                 users.push({
                     id: Date.now().toString(),
                     username: req.body.username,
-                    password: hashedPassword
+                    password: hashedPassword,
+                    landmarks: 0
                 })
+                console.log(users);
                 res.redirect('/login')
             } catch {
                 res.redirect('/register')     
             }
-            console.log(users)
         }
 });
 
@@ -93,15 +94,21 @@ app.get('/login', checkNotAuthenticated, (req,res) => {
     res.render('login.ejs');
 })
 
-app.post('/login', checkNotAuthenticated, passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/login',
-    failureFlash: true
-}));
+app.post('/login', 
+    checkNotAuthenticated,    
+    setUserName,
+    passport.authenticate('local', { 
+            successRedirect: '/',
+            failureRedirect: '/login',
+            failureFlash: true
+        })
+
+);
 
 app.delete('/logout', (req,res) => {
     req.logOut();
     res.redirect('/login');
+    removePlayer()
 })
 
 function checkAuthenticated(req, res, next) {
@@ -118,6 +125,12 @@ function checkNotAuthenticated(req, res, next) {
     return next()
 }
 
+function setUserName(req, res, next) {
+        console.log("setting session");
+        session["username"] = req.body.username;
+        return next();
+}
+
 
 //load in raw data
 let rawdata = fs.readFileSync('public/data/landmarks.json');
@@ -132,9 +145,21 @@ for(i=0; i<keys.length; i++) {
 // Add the WebSocket handlers
 io.on('connection', function(socket) {
     var players = {};
+
+
     socket.on('new player', function() {
-        players[socket.id] = {};
-        console.log("welcome");
+        var name;
+        /*
+        players[socket.id] = {
+            "name": session["username"]
+        };  */
+        for(i=0; i<users.length; i++) {
+            if(users[i].username == session["username"]) {
+                users[i]["socket"] = socket.id;    
+            }
+        }
+        console.log(users)
+        io.sockets.emit("add to leaderboard", users);
     });
 
     socket.on('correct guess', function(threeWords) {
@@ -148,6 +173,9 @@ io.on('connection', function(socket) {
 
     socket.on('found landmark', function(pinLat, pinLng){
         console.log("found landmark");
+        console.log(users[socket.id])
+        //console.log("users[socket.id].landmarks "+users[socket.id].landmarks)
+        //users[socket.id].landmarks = users[socket.id].landmarks+1;
         io.sockets.emit("add pin", pinLat, pinLng);
     });
 
@@ -162,6 +190,15 @@ io.on('connection', function(socket) {
             }
         }
         console.log("reveal landmark "+icon+" "+coordinates[0]+" "+coordinates[1])
+        var userKeys = Object.keys(users);
+        for(i=0; i<userKeys.length; i++) {
+            if(users[userKeys[i]].socket === socket.id) {
+                console.log(JSON.stringify(users[userKeys[i]]))
+                users[userKeys[i]]["landmarks"] = users[userKeys[i]]["landmarks"]+1;
+                console.log(users[userKeys[i]]["landmarks"])
+            }
+        }        
+        //console.log("users[socket.id].landmarks "+users[socket.id].landmarks)
         io.to(socket.id).emit("reveal landmark", icon, coordinates);
     })
 });

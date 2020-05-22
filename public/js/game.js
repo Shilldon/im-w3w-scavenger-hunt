@@ -15,3 +15,7 @@ socket.on("set landmark area", function(range, radius, landmark) {
 socket.on("reveal landmark", function(icon, coordinates){
     drawLandmark(icon, coordinates);
 });
+
+socket.on("add to leaderboard", function(players) {
+    addToLeaderBoard(players);
+})
