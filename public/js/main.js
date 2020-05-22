@@ -185,17 +185,9 @@ $.getJSON( "../data/map.geojson", function( data ) {
 */
 
 function addToLeaderBoard(players) {
-    console.log("players="+JSON.stringify(players))
-    console.log(players)
     players.sort((a, b) => (a.landmarks < b.landmarks) ? 1 : -1)
-    console.log(players)
-    console.log(players[0].landmarks)
-    console.log(players[1].landmarks)
     $.each(players, function(key, player) {
-        //console.log("player "+JSON.stringify(player))
         $.each(player, function(key, value){
-            //console.log(key)
-            //console.log(JSON.stringify(value))
             if(key === "username") {
                 var name = value;
                 if($(`#leaderboard-${name}`).length===0) {

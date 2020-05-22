@@ -3,8 +3,8 @@ if(process.env.NODE_ENV !== 'production') {
 }
 
 // Dependencies
-const express = require('express');
-const app = express();
+//const express = require('express');
+//const app = express();
 const fs = require('fs');
 const bcrypt = require('bcrypt');
 const passport = require('passport');
@@ -19,18 +19,24 @@ initialisePassport(
     id => users.find(user => user.id === id)    
 )
 
+var express = require('express'),
+    app = express(),
+    server = require('http').createServer(app),
+    io = require('socket.io').listen(server)
 
+server.listen(process.env.PORT || 8080);
+/*
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
-var port = process.env.PORT || 3000;
-
+var port = process.env.PORT || 8080;
+*/
 const users = [];
 
 // Start the Server
+/*
 http.listen(port, function () {
     console.log('Server Started. Listening on *:' + port);
-});
-
+});*/
 
 // Express Middleware
 app.set('view-engine', 'ejs');
@@ -143,9 +149,12 @@ for(i=0; i<keys.length; i++) {
 }
 
 // Add the WebSocket handlers
-io.on('connection', function(socket) {
-    var players = {};
+//io.on('connection', function(socket) {
+io.sockets.on('connection', function(socket) {
+    console.log(socket)
 
+
+    var players = {};
 
     socket.on('new player', function() {
         var name;
