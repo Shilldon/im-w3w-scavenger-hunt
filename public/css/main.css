@@ -34,9 +34,18 @@ body {
 }
 
 .navbar-text {
-  font-size: 2.5rem;
   color: #1a3a7c !important;
   font-weight: 600;
+  font-family: 'Source Sans Pro',sans-serif;
+}
+
+.nav-item button {
+  color: #1a3a7c !important;
+  outline: none;
+  background: none;
+  -webkit-box-shadow: none;
+          box-shadow: none;
+  border: none;
 }
 
 h1 {
@@ -126,5 +135,11 @@ p {
 .leaderboard .leaderboard--contestant img {
   height: auto;
   width: 8%;
+}
+
+.messages {
+  background-color: white;
+  min-height: 3rem;
+  padding-left: 30px;
 }
 /*# sourceMappingURL=main.css.map */

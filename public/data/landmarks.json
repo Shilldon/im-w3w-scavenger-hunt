@@ -1,8 +1,20 @@
-{ "gums.clubs.terms": {
-    "name": "Big Ben",
-    "range": 20,
-    "radius": 125,
-    "clue": "BONG!",
-    "icon": "big-ben",
-    "coordinates": [-0.12465834617614747,51.50074869890189]
-}}
+{ 
+    "puts.assess.giant": {
+        "name": "the Eden Project",
+        "zoom": 13.6,
+        "radius": 3500,
+        "clues": ["Sets in place","To rate","Colossus"],
+        "clue": "Where you would find the Apple",
+        "icon": "eden-project",
+        "coordinates": [-4.744241048775764, 50.36091302741406]
+    },
+    "squad.played.door": {
+        "name": "Big Ben",
+        "zoom": 17,
+        "radius": 200,
+        "clues": ["Crew or team","Acted","Lock or bar it"],
+        "clue": "BONG!",
+        "icon": "big-ben",
+        "coordinates": [-0.12458710845702943, 51.500686518837824]
+    }
+}

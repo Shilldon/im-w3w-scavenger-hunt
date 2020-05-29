@@ -10,54 +10,76 @@
 </head>
 <body>
     <div class="container-fluid background-shade">
-        <div class="row">
-                <nav class="navbar navbar-light bg-light w-100">
-                        <a class="navbar-brand" href="#">
-                            <img src="/images/im-logo.png" width="" height="120" alt="">
-                            <h1 class="navbar-text">Reading TTE</h1>
-                        </a>
-                        </nav>   
-        </div>
-     
+            <nav class="navbar navbar-light bg-light w-100">
+                <a class="navbar-brand" href="#">
+                    <img src="/images/im-logo.png" width="" height="120" alt="">
+                        <h1 class="navbar-text">Reading TTE</h1>
+                </a>
+                <ul class="nav justify-content-center">
+                    <li class="nav-item">
+                        <form class="logout-form" action="/logout?_method=DELETE" method="POST">
+                            <button class="logout-button" type="button">
+                                <i class="fa fa-sign-out fa-2x" aria-hidden="true"><span class="navbar-text">Logout</span></i></a>
+                            </button>
+                        </form>
+                    </li>
+                </ul>                
+            </nav>   
+
         <div class="row">
             <div class="splash-title col d-flex justify-content-center">
                 <h1 class="my-auto">What3Words Scavenger Hunt</h1>
             </div>
-        </div>
-    <div class="row tile d-flex justify-content-center background-shade">
-            <div class="col-3 white--tile">
-                <h2>Hint #1</h2>     
-                <p id="hint-1" class="clues--hint">Teeth</p>       
-            </div>
-            <div class="col-3 offset-1 white--tile">
-                <h2>Hint #2</h2>      
-                <p id="hint-2" class="clues--hint">Social</p>                         
-            </div>
-            <div class="col-3 offset-1 white--tile">
-                <h2>Hint #3</h2>    
-                <p id="hint-3" class="clues--hint">Conditions</p>                           
-            </div>                            
         </div>    
-    <div class="row guesses-title">
-        <div class="col">
-            <h2>Enter your guesses</h2>            
+    <div class="row tile d-flex justify-content-center background-shade clues">
+        <div class="col-3 white--tile">
+            <h2>Hint #1</h2>     
+            <p id="hint-1" class="clues--hint"></p>       
+        </div>
+        <div class="col-3 offset-1 white--tile">
+            <h2>Hint #2</h2>      
+            <p id="hint-2" class="clues--hint"></p>                         
+        </div>
+        <div class="col-3 offset-1 white--tile">
+            <h2>Hint #3</h2>    
+            <p id="hint-3" class="clues--hint"></p>                           
+        </div>                            
+    </div>    
+    <div class="row tile d-none justify-content-center background-shade location-hint white--tile">
+        <div class="col-12 ">
+            <h2>Location Hint</h2>      
+            <p id="location-hint-text" class="clues--hint"></p>                         
+        </div>   
+    
+    </div>    
+    <div class="row guesses">
+        <div class="col-12">
+            <div class="row guesses-title">
+                <div class="col-12">
+                    <h2>Enter your guesses</h2>            
+                </div>
+            </div>
+            <div class="row guesses">        
+                <div class="col-3 d-flex justify-content-center">
+                    <input class="my-auto guesses--words" type="text" id="what-1">
+                </div>
+                <div class="col-3 d-flex justify-content-center">
+                    <input class="my-auto guesses--words type="text" id="what-2">
+                </div>
+                <div class="col-3 d-flex justify-content-center">
+                    <input class="my-auto guesses--words" type="text" id="what-3">            
+                </div>
+                <div class="col-3 my-auto d-flex justify-content-center">
+                    <button class="guesses--submit-words my-auto btn btn-outline-primary">Submit</button>
+                </div>
+            </div>        
         </div>
     </div>
-    <div class="row guesses">        
-        <div class="col-3 d-flex justify-content-center">
-            <input class="my-auto guesses--words" type="text" id="what-1">
-        </div>
-        <div class="col-3 d-flex justify-content-center">
-            <input class="my-auto guesses--words type="text" id="what-2">
-        </div>
-        <div class="col-3 d-flex justify-content-center">
-            <input class="my-auto guesses--words" type="text" id="what-3">            
-        </div>
-        <div class="col-3 my-auto d-flex justify-content-center">
-            <button class="guesses--submit-words my-auto btn btn-outline-primary">Submit</button>
-        </div>
+    <div class="row messages">
+        <div class="col-12">
+            <h2 class="message"></h2>
+        </div>    
     </div>
-
     <div class="row">
         <div class="col-12 col-lg-6 ">
             <div  id="map" class="w-100">
@@ -65,10 +87,36 @@
             </div>            
         </div>
         <div class="col-12 col-lg-6 leaderboard">
-
+            <div class="leaderboard--contestant row">
+                <div class="col-4 my-auto">
+                    <h4 class="contestant-name">Player</h4>
+                </div>
+                <div class="col-8 leaderboard--sites-found">
+                    <h4>Locations Found</h4>
+                </div>
+            </div>
         </div>
     </div>  
 </div>
+
+<div id="congratulations-modal" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Well Done!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p></p>
+        </div>
+        <div class="modal-footer">
+            <button class="my-auto btn btn-outline-primary d-none next-location">Next</button>        </div>
+      </div>
+    </div>
+  </div>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>

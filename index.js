@@ -114,8 +114,7 @@ app.post('/login',
 app.delete('/logout', (req,res) => {
     req.logOut();
     res.redirect('/login');
-    removePlayer()
-})
+});
 
 function checkAuthenticated(req, res, next) {
     if(req.isAuthenticated()) {
@@ -137,7 +136,6 @@ function setUserName(req, res, next) {
         return next();
 }
 
-
 //load in raw data
 let rawdata = fs.readFileSync('public/data/landmarks.json');
 let clues = JSON.parse(rawdata);
@@ -151,43 +149,51 @@ for(i=0; i<keys.length; i++) {
 // Add the WebSocket handlers
 //io.on('connection', function(socket) {
 io.sockets.on('connection', function(socket) {
-    console.log(socket)
+    //console.log(socket)
 
 
     var players = {};
 
     socket.on('new player', function() {
-        var name;
-        /*
-        players[socket.id] = {
-            "name": session["username"]
-        };  */
         for(i=0; i<users.length; i++) {
             if(users[i].username == session["username"]) {
-                users[i]["socket"] = socket.id;    
+                users[i]["socket"] = socket.id;   
+                users[i]["landmarks"] = 0;
             }
         }
-        console.log(users)
-        io.sockets.emit("add to leaderboard", users);
+        io.sockets.emit("update leaderboard", users);
+        var cluesKeys = Object.keys(clues);
+        io.to(socket.id).emit("update clues",clues[cluesKeys[0]].clues);
+    });
+
+    socket.on('remove player', function() {
+        var players = [];
+        for(i=0; i<users.length; i++) {
+            if(users[i].socket != socket.id) {
+                players.push(users[i]);    
+            }
+        }
+
+        io.sockets.emit("update leaderboard", players);
     });
 
     socket.on('correct guess', function(threeWords) {
         player = players[socket.id];
-        var range = clues[threeWords].range;
+        var zoom = clues[threeWords].zoom;
         var radius = clues[threeWords].radius;
         var landmark = clues[threeWords].name;
-        console.log("range = "+range);
-        io.to(socket.id).emit("set landmark area", range, radius, landmark);        
+        var hint = clues[threeWords].clue;
+        console.log("landmark bounds to draw ",landmark)
+        io.to(socket.id).emit("set landmark area", zoom, radius, landmark, hint);        
     });
-
+/*
     socket.on('found landmark', function(pinLat, pinLng){
-        console.log("found landmark");
-        console.log(users[socket.id])
+
         //console.log("users[socket.id].landmarks "+users[socket.id].landmarks)
         //users[socket.id].landmarks = users[socket.id].landmarks+1;
         io.sockets.emit("add pin", pinLat, pinLng);
     });
-
+*/
     socket.on('player found landmark', function(landmark) {
         var icon;
         var coordinates = [];
@@ -199,15 +205,39 @@ io.sockets.on('connection', function(socket) {
             }
         }
         console.log("reveal landmark "+icon+" "+coordinates[0]+" "+coordinates[1])
+        var player;
         var userKeys = Object.keys(users);
         for(i=0; i<userKeys.length; i++) {
             if(users[userKeys[i]].socket === socket.id) {
-                console.log(JSON.stringify(users[userKeys[i]]))
-                users[userKeys[i]]["landmarks"] = users[userKeys[i]]["landmarks"]+1;
-                console.log(users[userKeys[i]]["landmarks"])
+                player = users[userKeys[i]];
             }
         }        
+        player["landmarks"] = player["landmarks"]+1;
         //console.log("users[socket.id].landmarks "+users[socket.id].landmarks)
-        io.to(socket.id).emit("reveal landmark", icon, coordinates);
-    })
+        io.to(socket.id).emit("reveal landmark", player.username, icon, coordinates, landmark);
+        io.sockets.emit("send message", player.username+" has found "+landmark);
+    });
+
+    socket.on('next location', function() {
+        var userKeys = Object.keys(users);
+        console.log("userKeys ",userKeys)
+        var clueID;
+        for(i=0; i<userKeys.length; i++) {
+            console.log("users socket ", users[userKeys[i]].socket)
+            if(users[userKeys[i]].socket === socket.id) {
+                clueID = users[userKeys[i]]["landmarks"];
+            }
+        }             
+        
+        var cluesKeys = Object.keys(clues);
+        console.log("clues Keys ", cluesKeys)
+        var clue = clues[cluesKeys[clueID]].clues;  
+        console.log("clue ",clue)
+        for(i=0; i<userKeys.length; i++) {
+            if(users[userKeys[i]].socket === socket.id) {
+                io.to(socket.id).emit("update clues", clue);    
+            }
+        }
+    });
+
 });

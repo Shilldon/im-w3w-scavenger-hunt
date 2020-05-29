@@ -35,10 +35,21 @@ body {
 }
 
 .navbar-text {
-        font-size: 2.5rem;
         color: #1a3a7c !important; 
         font-weight: 600;       
+        font-family: 'Source Sans Pro',sans-serif;            
 }
+
+.nav-item {
+    button {
+        color: #1a3a7c !important;         
+        outline: none;
+        background: none;
+        box-shadow:none;
+        border: none;
+    }      
+}
+
 
 h1 {
     font-size: 2.5rem;
@@ -122,4 +133,10 @@ p {
             width: 8%;
         }
     }
+}
+
+.messages {
+    background-color: white;
+    min-height: 3rem;
+    padding-left: 30px;
 }

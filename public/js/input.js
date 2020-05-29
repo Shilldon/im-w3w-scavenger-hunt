@@ -18,7 +18,7 @@ function zoomTo(lat,lng) {
     map.getView().setCenter(ol.proj.fromLonLat([
         parseFloat(lng), parseFloat(lat)
     ]));
-    map.getView().setZoom(17);
+    //map.getView().setZoom(17);
 }
 
 //take the words input and check against the W3w API. Return the co-ordinates if valid word combination
@@ -41,7 +41,7 @@ function checkEntry() {
         alert("Invalid or non-existent 3 word address, try again!")
     });
 }
-
+/*
 function toRad(Value) {
     return Value * Math.PI / 180;
   }
@@ -68,7 +68,7 @@ function toRad(Value) {
       return false;
     }
   }
-
+*/
   function checkLandmark(evt) {
     var lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
     var lon = lonlat[0];
@@ -78,10 +78,8 @@ function toRad(Value) {
     }    
   }
 
-  function drawSearchArea(map, radius){
-    console.log("drawing circle")
-    console.log("radiuus "+radius)
-    console.log("map "+map)
+  function drawSearchArea(map, radius, landmark){
+
     var centerLongitudeLatitude = map.getView().getCenter();
     var layer = new ol.layer.Vector({
       source: new ol.source.Vector({
@@ -98,7 +96,8 @@ function toRad(Value) {
             color: 'rgba(0, 0, 255, 0.1)'
           })
         })
-      ]
+      ],
+      name: landmark+"_circle"      
     });
     map.addLayer(layer);
 }    
@@ -112,7 +111,7 @@ function drawLandmarkBounds(map, landmark) {
             console.log(JSON.stringify("j "+j,features[j]))
             if(features[j].properties.Landmark === landmark) {
                 var area = [];
-                var coordinates = data.features[0].geometry.coordinates[0];
+                var coordinates = data.features[j].geometry.coordinates[0];
                 for(i=0; i<coordinates.length; i++) {
                     var coordinate = coordinates[i];
                     area.push(coordinate);
@@ -127,7 +126,7 @@ function drawLandmarkBounds(map, landmark) {
                 
                 // Create vector layer attached to the vector source.
                 var vectorLayer = new ol.layer.Vector({
-                  source: vectorSource,
+                  source: vectorSource
                 });                
 
                 var styleNotFound = new ol.style.Style({

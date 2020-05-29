@@ -18,6 +18,7 @@ var map = new ol.Map({
         })
 });
 
+/*
 var currZoom = map.getView().getZoom();
 map.on('moveend', function(e) {
 var newZoom = map.getView().getZoom();
@@ -28,14 +29,17 @@ if (currZoom != newZoom && currentLng != undefined) {
     ]));    
 }
 });
+*/
 
-/*
-map.on('click', function(evt) {
-    checkLandmark(evt);
-});*/
+map.on('moveend', function(e) {
+    var zoom = map.getView().getZoom();
+    console.log("Zoom "+zoom)
+})
 
+function setZoom(zoom) {
+    map.getView().setZoom(zoom);
+}
 function addPin(pinLat, pinLng) {
-    console.log("adding pin")
     //Set up an  Style for the marker note the image used for marker
     var iconStyle = new ol.style.Style({
         image: new ol.style.Icon(/** @type {module:ol/style/Icon~Options} */ ({
@@ -73,7 +77,6 @@ function addPin(pinLat, pinLng) {
             return iconStyle;
         }
     });
-console.log("map: "+map)
     // add style to Vector layer style map
     map.addLayer(markerVectorLayer);
 
@@ -89,116 +92,93 @@ function checkLandmarkClick(e, landmark) {
         if(selectedFeatures[0].values_.name === landmark) {
             var styleNotFound = new ol.style.Style({
                 stroke: new ol.style.Stroke({
-                  color: 'red',
+                  color: 'transparent',
                   width: 1
                 }),
                 fill: new ol.style.Fill({
                     color: 'transparent'
                 })
               });    
-            selectedFeatures[0].setStyle(styleNotFound);                      
-            console.log("name === landmark")
+            selectedFeatures[0].setStyle(styleNotFound);  
             socket.emit("player found landmark", landmark);
         }
     }    
 }
 
-function drawLandmark(icon, coordinates) {
-    console.log("coordinates "+coordinates)
+function drawLandmark(playerName, icon, coordinates, landmark) {
+    console.log(playerName)
+    $(".next-location").removeClass("d-none");
+    $(".next-location").addClass("d-flex");
     addPin(coordinates[1],coordinates[0]);
-    $(".leaderboard--sites-found").append(`<img src='./images/icon-${icon}.png'>`)
-    console.log("foujnd")
+    $(`#leaderboard-${playerName}`).find(".leaderboard--sites-found").append(`<img src='./images/icon-${icon}.png'>`);
+    var landmarkLayer;
+    map.getLayers().forEach(function (layer) {
+        if (layer.get('name') != undefined & layer.get('name') === landmark+"_circle") {
+            landmarkLayer = layer;
+        }
+    });
+    map.removeLayer(landmarkLayer)    
+    $(".modal-body").find("p").text(congratulationsText);
+    $('#congratulations-modal').modal({
+        show: true
+    });
 }
 
 
-/*
-$.getJSON( "../data/map.geojson", function( data ) {
-    $.each(data, function(key, value) {
-        var features = data["features"];
-        for(j=0; j<features.length; j++) {
-            console.log(JSON.stringify(features[j]))
-            if(features[j].properties.Landmark === "Big Ben") {
-                var area = [];
-                var coordinates = data.features[0].geometry.coordinates[0];
-                for(i=0; i<coordinates.length; i++) {
-                    var coordinate = coordinates[i];
-                    area.push(coordinate);
-                }
-                var polygon = new ol.geom.Polygon([area]);
-                polygon.transform('EPSG:4326', 'EPSG:3857');
-                var feature = new ol.Feature(polygon);
-                
-                // Create vector source and the feature to it.
-                var vectorSource = new ol.source.Vector();
-                vectorSource.addFeature(feature);
-                
-                // Create vector layer attached to the vector source.
-                var vectorLayer = new ol.layer.Vector({
-                  source: vectorSource,
-                });                
-                var styleNotFound = new ol.style.Style({
-                    stroke: new ol.style.Stroke({
-                      color: 'transparent',
-                      width: 1
-                    }),
-                    fill: new ol.style.Fill({
-                        color: 'transparent'
-                    })
-                  });
+// We track coordinate change each time the mouse is moved
+map.on('click', function(evt){
+    var lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
+    console.log(lonlat)
+})
 
-                var styleFound = new ol.style.Style({
-                    stroke: new ol.style.Stroke({
-                      color: 'red',
-                      width: 1
-                    }),
-                    fill: new ol.style.Fill({
-                        color: 'transparent'
-                    })
-                  });                  
-
-                feature.setStyle(styleNotFound);
-                feature.setProperties({"name":"Big Ben"})
-
-                // Add the vector layer to the map.
-                map.addLayer(vectorLayer);
-
-                var selectClick = new ol.interaction.Select({
-                    condition: ol.events.condition.click,
-                  });
-                  map.addInteraction(selectClick);
-                  selectClick.on('select', function(e) {
-                      console.log(e)
-                      if(e != null) {
-                        var selectedFeatures = e.target.getFeatures().getArray();
-                        if(selectedFeatures.length > 0) {
-                            if(selectedFeatures[0].values_.name === "Big Ben") {
-                                selectedFeatures[0].setStyle(styleFound);
-                            }
-                        }
-                      }
-                  });
-                                    
-            }
-        }
-    });
-});
-*/
-
-function addToLeaderBoard(players) {
+function updateLeaderBoard(players) {
+    $(".leaderboard").find(".contestant").remove();
+    console.log("addiong")
     players.sort((a, b) => (a.landmarks < b.landmarks) ? 1 : -1)
     $.each(players, function(key, player) {
         $.each(player, function(key, value){
             if(key === "username") {
                 var name = value;
-                if($(`#leaderboard-${name}`).length===0) {
-                    $(".leaderboard").append(`<div id="leaderboard-${name}" class="leaderboard--contestant row"><div class="col-4 my-auto"><h4 class="contestant-name">${name}</h4></div><div class="col-8 leaderboard--sites-found"></div></div>`);
-                } 
+                $(".leaderboard").append(`<div id="leaderboard-${name}" class="leaderboard--contestant row contestant"><div class="col-4 my-auto"><h4 class="contestant-name">${name}</h4></div><div class="col-8 leaderboard--sites-found"></div></div>`);
             }       
         });
     });
-
 }
 
+function updateClues(clues) {
+    $(".clues").removeClass("d-none");
+    $(".clues").addClass("d-flex");
+
+    $(".guesses").removeClass("d-none");
+    $(".guesses").addClass("d-flex");
+
+    $(".next-location").removeClass("d-flex");
+    $(".next-location").addClass("d-none");    
+    $(".location-hint").removeClass("d-flex");
+    $(".location-hint").addClass("d-none");
+
+    $("#hint-1").text(clues[0]);
+    $("#hint-2").text(clues[1]);
+    $("#hint-3").text(clues[2]);    
+}
+
+function showLocationHint(clue) {
+    $(".clues").removeClass("d-flex");
+    $(".clues").addClass("d-none");
+    
+    $(".guesses").removeClass("d-flex");
+    $(".guesses").addClass("d-none");
+
+    $(".location-hint").removeClass("d-none");
+    $(".location-hint").addClass("d-flex");
+    $("#location-hint-text").text(clue);
+}
+
+function sendMessage(message) {
+    $(".message").show();
+    $(".message").text(message);
+    $(".message").delay(5000).fadeOut(1000);
+}
 $(document).ready(function() {
     $("input").on('keyup', function(e){
         if(e.keyCode === 13) {
@@ -209,4 +189,14 @@ $(document).ready(function() {
     $(".guesses--submit-words").on("click", function() {
         checkEntry();
     });
+
+    $(".logout-button").on("click", function() {
+        socket.emit("remove player");
+        console.log("logging out")
+        $(".logout-form").submit();
+    });
+
+    $(".next-location").on("click", function() {
+        socket.emit("next location");
+    })
 })
