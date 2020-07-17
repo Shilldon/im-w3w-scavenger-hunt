@@ -1,0 +1,28 @@
+GET http://localhost:3000/users
+
+###
+
+GET http://localhost:3000/users/5edc0b96aebe612494f2f962
+
+
+###
+POST http://localhost:3000/users
+Content-Type: application/json
+
+{   
+    "name": "Stew",
+    "landmarks": "[]"
+}
+
+### 
+
+DELETE http://localhost:3000/users/5edc0aedf3737411d0b31f57
+
+
+###
+PATCH http://localhost:3000/users/5edc0c2d3b418f11848eb86d
+Content-Type: application/json
+
+{   
+    "landmarks": 2
+}

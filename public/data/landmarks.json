@@ -1,20 +1,113 @@
 { 
+    "land.every.hoops": {
+        "name": "Stonehenge",
+        "idname": "stonehenge",
+        "zoom": 12,
+        "radius": 4000,
+        "clues": ["____ Ho!","All","Jump through"],
+        "clue": "Its a calendar?",
+        "icon": "stonehenge",
+        "coordinates": [-1.82617277730141, 51.17883819966434]        
+    },    
     "puts.assess.giant": {
-        "name": "the Eden Project",
+        "name": "The Eden Project",
+        "idname": "eden-project",
         "zoom": 13.6,
         "radius": 3500,
         "clues": ["Sets in place","To rate","Colossus"],
-        "clue": "Where you would find the Apple",
+        "clue": "Adam wos 'ere!",
         "icon": "eden-project",
         "coordinates": [-4.744241048775764, 50.36091302741406]
     },
     "squad.played.door": {
         "name": "Big Ben",
+        "idname": "big-ben",
         "zoom": 17,
         "radius": 200,
         "clues": ["Crew or team","Acted","Lock or bar it"],
         "clue": "BONG!",
         "icon": "big-ben",
         "coordinates": [-0.12458710845702943, 51.500686518837824]
-    }
+    },
+    "feared.panel.onions": {
+        "name": "The Roman Baths",
+        "idname": "roman-baths",
+        "zoom": 16,
+        "radius": 300,
+        "clues": ["Dreaded","Interviewing group","They might make you cry"],
+        "clue": "Don't forget your sponge!",
+        "icon": "roman-baths",
+        "coordinates": [-2.359618, 51.381065]
+    },
+    "avoid.deck.native": {
+        "name": "Blackpool Tower",
+        "idname": "blackpool-tower",
+        "zoom": 14,
+        "radius": 700,
+        "clues": ["Sidestep","Knock to the ground","Lifelong local"],
+        "clue": "518' 9\"",
+        "icon": "blackpool-tower",
+        "coordinates": [-3.055289, 53.815881]
+    },
+    "clocking.chap.operated": {
+        "name": "Glastonbury Tor",
+        "idname": "glastonbury-tor",
+        "zoom": 13,
+        "radius": 1000,
+        "clues": ["Timepiece monarch","A man or fellow","Used a machine"],
+        "clue": "Take the tour, why not you?",
+        "icon": "glastonbury-tor", 
+        "coordinates": [-2.69902,51.14464]
+    },
+    "diary.canal.shopping": {
+        "name": "Avebury Stone Circle",
+        "idname": "avebury",
+        "zoom": 14,
+        "radius": 700,
+        "clues": ["Personal record","Venetian waterway","Goods bought"],
+        "clue": "Round and round it goes",
+        "icon": "avebury", 
+        "coordinates": [-1.853050, 51.429448]
+    },
+    "beep.taxi.consoles": {
+        "name": "The Cerne Giant",
+        "idname": "cerne-giant",
+        "zoom": 14,
+        "radius": 700,
+        "clues": ["Warning toot","Hire car","Wii, Xbox, Play-station"],
+        "clue": "Likes clubbing",
+        "icon": "cerne-giant", 
+        "coordinates": [-2.474691, 50.813636]
+    },
+    "nags.elephant.renting": {
+        "name": "Holy Island Of Lindisfarne",
+        "idname": "lindisfarne",
+        "zoom": 14,
+        "radius": 700,
+        "clues": ["Old horses","A great trumpeter","Using a flat"],
+        "clue": "Blessed land",
+        "icon": "lindisfarne", 
+        "coordinates": [-1.800731, 55.680693]
+    },
+    "budget.twig.traded": {
+        "name": "The Scott Monument",
+        "idname": "scott-monument",
+        "zoom": 14,
+        "radius": 700,
+        "clues": ["Money available","Branch baby?","Made a swap"],
+        "clue": "Highlander dedication",
+        "icon": "scott-monument", 
+        "coordinates": [-3.193271, 55.952376]
+    },
+    "buckling.avoid.suits": {
+        "name": "Clava Cairns",
+        "idname": "clava-cairns",
+        "zoom": 14,
+        "radius": 700,
+        "clues": ["Bending under pressure","Dodge","Types of cards"],
+        "clue": "Clever piles of stones",
+        "icon": "clava-cairns", 
+        "coordinates": [-4.073135, 57.473451]
+    }  
+    
 }

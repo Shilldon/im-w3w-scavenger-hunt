@@ -91,6 +91,10 @@ p {
   border: solid 2px #eb9f3a;
 }
 
+.guesses--mark img {
+  height: 2.75rem;
+}
+
 .btn {
   line-height: 0.8;
   color: #476195;
@@ -128,18 +132,163 @@ p {
   background-color: white;
 }
 
+.leaderboard .leaderboard--contestant span {
+  background-color: #cd7f32;
+  margin: 2px;
+  border: solid 0.5rem transparent;
+  border-radius: 50%;
+}
+
 .leaderboard .leaderboard--contestant h4 {
   color: #476195;
 }
 
 .leaderboard .leaderboard--contestant img {
-  height: auto;
-  width: 8%;
+  height: 1.2rem;
+  width: 1.2rem;
+}
+
+.winnerboard--contestant {
+  padding: 5px;
+  color: #1a3a7c;
+}
+
+.winnerboard--contestant span {
+  background-color: #cd7f32;
+  margin: 2px;
+  border: solid 0.5rem transparent;
+  border-radius: 50%;
+}
+
+.winnerboard--contestant img {
+  height: 1.2rem;
+  width: 1.2rem;
 }
 
 .messages {
   background-color: white;
   min-height: 3rem;
   padding-left: 30px;
+}
+
+.modal-image img {
+  width: 80%;
+}
+
+.btn-floating {
+  position: absolute;
+  font-size: 1.75rem;
+  margin-top: 2vh;
+  right: 2vw;
+  z-index: 1;
+  height: 10vh;
+  width: 10vh;
+  border-radius: 50%;
+  color: white;
+  background-color: green;
+  outline: none;
+  border: none;
+  -webkit-box-shadow: 3px 3px 3px black;
+          box-shadow: 3px 3px 3px black;
+  -webkit-transition-duration: 0.25;
+          transition-duration: 0.25;
+}
+
+.btn-floating:focus {
+  outline: none;
+  border: none;
+}
+
+.btn-floating:active {
+  -webkit-transform: scale(0.9, 0.9);
+          transform: scale(0.9, 0.9);
+}
+
+.score-penalty {
+  display: none;
+  position: absolute;
+  font-size: 2rem;
+  color: red;
+}
+
+.winner-modal-content {
+  background-color: transparent;
+  border: none;
+}
+
+.winner-modal--title {
+  color: white;
+  font-size: 2rem;
+}
+
+.winner-modal-body {
+  background-color: white;
+  color: #1a3a7c;
+}
+
+@media (min-width: 544px) {
+  h1 {
+    font-size: 4rem;
+  }
+  h2 {
+    font-size: 3.25rem;
+  }
+  h4 {
+    font-size: 2.75rem;
+  }
+  p {
+    font-size: 3rem;
+  }
+  .form-control {
+    height: 4rem;
+    font-size: 3rem;
+  }
+  .btn {
+    line-height: 4rem;
+    font-size: 3rem;
+  }
+  .leaderboard .leaderboard--contestant span {
+    border: solid 0.9rem transparent;
+  }
+  .leaderboard .leaderboard--contestant img {
+    height: 2rem;
+    width: 2rem;
+  }
+  .modal-full {
+    min-width: 100%;
+  }
+}
+
+@media (min-width: 992px) {
+  h1 {
+    font-size: 2.5rem;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  h4 {
+    font-size: 1.5rem;
+  }
+  p {
+    font-size: 1.5rem;
+  }
+  .form-control {
+    height: 3.5rem;
+    font-size: 1.25rem;
+  }
+  .btn {
+    line-height: 0.8rem;
+    font-size: 1.5rem;
+  }
+  .leaderboard .leaderboard--contestant span {
+    border: solid 0.5rem transparent;
+  }
+  .leaderboard .leaderboard--contestant img {
+    height: 1.2rem;
+    width: 1.2rem;
+  }
+  .modal-full {
+    min-width: 80%;
+  }
 }
 /*# sourceMappingURL=main.css.map */

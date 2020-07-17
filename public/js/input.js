@@ -1,4 +1,6 @@
 //
+var currentLandmark = "";
+
 function checkPasswordMatch(form) {
   var password1 = form.password1.value;
   var password2 = form.password2.value;
@@ -18,57 +20,32 @@ function zoomTo(lat,lng) {
     map.getView().setCenter(ol.proj.fromLonLat([
         parseFloat(lng), parseFloat(lat)
     ]));
-    //map.getView().setZoom(17);
 }
 
 //take the words input and check against the W3w API. Return the co-ordinates if valid word combination
 function checkEntry() {
-    var firstWord = $("#what-1").val();
-    var secondWord = $("#what-2").val();
-    var thirdWord = $("#what-3").val();
+    var firstWord = $("#what-1").val().toLowerCase();
+    var secondWord = $("#what-2").val().toLowerCase();
+    var thirdWord = $("#what-3").val().toLowerCase();
     console.log(firstWord+"."+secondWord+"."+thirdWord)
     what3words.api.convertToCoordinates(`${firstWord}.${secondWord}.${thirdWord}`).then(function(response) {
         console.log("[convertToCoordinates]", response);
         currentLat = response.coordinates.lat;
         currentLng = response.coordinates.lng;
-        socket.emit("correct guess", firstWord+"."+secondWord+"."+thirdWord);
+        socket.emit("submit guess", firstWord+"."+secondWord+"."+thirdWord);
         zoomTo(currentLat, currentLng);
-        $(".guesses--words").val('');
+        //$(".guesses--words").val('');
     })
     .catch(function(error) { // catch errors here
         console.log("[code]", error.code);
         console.log("[message]", error.message);
-        alert("Invalid or non-existent 3 word address, try again!")
+        $("#error-modal").modal({
+          show: true
+        })
     });
 }
+
 /*
-function toRad(Value) {
-    return Value * Math.PI / 180;
-  }
-  
-  function getDistanceBetween(lat1, lon1, lat2, lon2) {
-  
-    var R = 6371000; // metres
-    var φ1 = toRad(lat1);
-    var φ2 = toRad(lat2);
-    var Δφ = toRad(lat2 - lat1);
-    var Δλ = toRad(lon2 - lon1);
-    //alert("φ1 " + φ1 + "φ2 " + φ2)
-    var a = Math.sin(Δφ / 2) * Math.sin(Δφ / 2) +
-      Math.cos(φ1) * Math.cos(φ2) *
-      Math.sin(Δλ / 2) * Math.sin(Δλ / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c;
-    var range = parseFloat($("#map").attr("data-range"));
-  console.log("range = "+range)
-    if (d <= range) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-*/
   function checkLandmark(evt) {
     var lonlat = ol.proj.transform(evt.coordinate, 'EPSG:3857', 'EPSG:4326');
     var lon = lonlat[0];
@@ -76,7 +53,7 @@ function toRad(Value) {
     if(getDistanceBetween(lat, lon, currentLat, currentLng)) {
         socket.emit('found landmark', currentLat, currentLng);                  
     }    
-  }
+  }*/
 
   function drawSearchArea(map, radius, landmark){
 
@@ -99,11 +76,43 @@ function toRad(Value) {
       ],
       name: landmark+"_circle"      
     });
+
+
+    /*
+    var selectClick = new ol.interaction.Select({
+      condition: ol.events.condition.click,
+    });
+
+    console.log("adding circle interaction")
+    map.addInteraction(selectClick);
+    selectClick.on('select', function(e) {
+        if(e != null) {
+          checkLandmarkClick(e, landmark);
+        }
+    });    
+*/
+    console.log("layer ", layer);
+    //onsole.log("layer features ", layer.getFeatures());
+    console.log("source ", layer.getSource());
+    console.log("source features ", layer.getSource().getFeatures());
+/*
+    layer.source.features[0].setStyle({
+      stroke: new ol.style.Stroke({
+        color: 'blue',
+        width: 3
+      }),
+      fill: new ol.style.Fill({
+        color: 'rgba(0, 0, 255, 0.1)'
+      })
+    });*/
+
+
     map.addLayer(layer);
 }    
 
 function drawLandmarkBounds(map, landmark) {
   var coordinates;
+  currentLandmark = landmark;
   console.log("running landmark bounds")
   $.getJSON( "../data/map.geojson", function( data ) {
         var features = data["features"];
@@ -126,7 +135,8 @@ function drawLandmarkBounds(map, landmark) {
                 
                 // Create vector layer attached to the vector source.
                 var vectorLayer = new ol.layer.Vector({
-                  source: vectorSource
+                  source: vectorSource, 
+                  name: landmark+"-layer"
                 });                
 
                 var styleNotFound = new ol.style.Style({
@@ -144,7 +154,7 @@ function drawLandmarkBounds(map, landmark) {
 
                 // Add the vector layer to the map.
                 map.addLayer(vectorLayer);
-
+/*
                 var selectClick = new ol.interaction.Select({
                     condition: ol.events.condition.click,
                   });
@@ -154,7 +164,7 @@ function drawLandmarkBounds(map, landmark) {
                       if(e != null) {
                         checkLandmarkClick(e, landmark);
                       }
-                  });
+                  });*/
                                     
             }
         }

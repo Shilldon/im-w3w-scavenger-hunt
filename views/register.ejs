@@ -26,14 +26,14 @@
         </div>
     <form onSubmit = "return checkPassword(this)" action="/register" method="POST">    
     <div class="row tile d-flex justify-content-center background-shade">
-        <div class="col-4 white--tile">
+        <div class="col-10 col-offset-1 col-lg-4 white--tile">
             <h2>Register</h2>      
                 <p Enter username</p>
-                <input type="text" id="username" name="username" placeholder="Username" required>     
+                <input class="form-control" type="text" id="username" name="username" placeholder="Username" required>     
                 <p>Enter password</p>
-                <input type="text" id="password1" name="password1" placeholder="Password">       
+                <input class="form-control" type="text" id="password1" name="password1" placeholder="Password">       
                 <p>Verify password</p>
-                <input type="text" id="password2" name="password2" placeholder="Re-enter Password">    
+                <input class="form-control" type="text" id="password2" name="password2" placeholder="Re-enter Password">    
                 <p><% if (messages.registrationerror) { %>
                     <%= messages.registrationerror %>
                     <% } %>
@@ -41,7 +41,7 @@
         </div>
     </div>
     <div class="row tile d-flex justify-content-center background-shade">
-        <div class="col-4 white--tile">
+        <div class="col-10 col-offset-1 col-lg-4 white--tile">
             <input type="submit" class="my-auto btn btn-outline-primary" value="Register">  
    
             <p>Already registered? Login <a href="login">here</a></p>                                                                                  
